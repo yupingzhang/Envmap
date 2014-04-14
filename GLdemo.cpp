@@ -5,7 +5,6 @@
 #include "AppContext.hpp"
 #include "Input.hpp"
 #include "Scene.hpp"
-#include "Octahedron.hpp"
 #include "MObject.hpp"
 #include "Cuberoom.hpp"
 
@@ -26,7 +25,6 @@ AppContext::~AppContext()
     // if any are NULL, deleting a NULL pointer is OK
     delete scene;
     delete input;
-    delete lightmarker;
     delete object;
     delete cube;
 }
@@ -82,7 +80,7 @@ extern "C" {
         AppContext *appctx = (AppContext*)glfwGetWindowUserPointer(win);
 
         if (action == GLFW_PRESS)
-            appctx->input->keyPress(win, key, appctx->terrain, appctx->object);
+            appctx->input->keyPress(win, key, appctx->scene, appctx->object);
         else if (action == GLFW_RELEASE)
             appctx->input->keyRelease(win, key);
     }
@@ -140,8 +138,6 @@ int main(int argc, char *argv[])
     // initialize context (after GLFW)
     appctx.scene = new Scene(win);
     appctx.input = new Input;
-    appctx.lightmarker = new Octahedron();
-    
     appctx.object = new MObject();
     appctx.cube = new Cuberoom();
     
@@ -163,7 +159,6 @@ int main(int argc, char *argv[])
             //render to texture
             appctx.object->createCubeTexture();
             appctx.scene->proj(1);
-            Vec3f offset = vec3<float>(0.0, 100.0, -100.0);
             
             for (int i=0; i<6; i++)
             {
@@ -178,38 +173,38 @@ int main(int argc, char *argv[])
                 switch (i) {
                     case 0:  //POSITIVE_X
                     {
-                        appctx.scene->setView(vec3<float>(M_PI/2, M_PI/2, -M_PI/2), offset);
+                        appctx.scene->setView(vec3<float>(M_PI/2, M_PI/2, -M_PI/2), appctx.scene->objPos);
                         //appctx.scene->setView(vec3<float>(-M_PI/2, M_PI/2, 0.0), offset);
                         glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_X, appctx.object->textureID,0);
                         break;
                     }
                     case 1:  //NEGATIVE_X
                     {
-                        appctx.scene->setView(vec3<float>(-M_PI/2, -M_PI/2, -M_PI/2), offset);
+                        appctx.scene->setView(vec3<float>(-M_PI/2, -M_PI/2, -M_PI/2), appctx.scene->objPos);
                         glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_NEGATIVE_X, appctx.object->textureID,0);
                         break;
                     }
                     case 2:  //POSITIVE_Y
                     {
-                        appctx.scene->setView(vec3<float>(M_PI/2, M_PI, M_PI), offset);
+                        appctx.scene->setView(vec3<float>(M_PI/2, M_PI, M_PI), appctx.scene->objPos);
                         glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_Y, appctx.object->textureID,0);
                         break;
                     }
                     case 3:  //NEGATIVE_Y
                     {
-                        appctx.scene->setView(vec3<float>(-M_PI/2, M_PI, -M_PI), offset);
+                        appctx.scene->setView(vec3<float>(-M_PI/2, M_PI, -M_PI), appctx.scene->objPos);
                         glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_NEGATIVE_Y, appctx.object->textureID,0);
                         break;
                     }
                     case 4:  //POSITIVE_Z
                     {
-                        appctx.scene->setView(vec3<float>(0.0, M_PI, M_PI ), offset);
+                        appctx.scene->setView(vec3<float>(0.0, M_PI, M_PI ), appctx.scene->objPos);
                         glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_POSITIVE_Z, appctx.object->textureID,0);
                         break;
                     }
                     case 5:  //NEGATIVE_Z
                     {
-                        appctx.scene->setView(vec3<float>(M_PI, M_PI, 0.0), offset);
+                        appctx.scene->setView(vec3<float>(M_PI, M_PI, 0.0), appctx.scene->objPos);
                         glFramebufferTexture2D(GL_DRAW_FRAMEBUFFER, GL_COLOR_ATTACHMENT0, GL_TEXTURE_CUBE_MAP_NEGATIVE_Z, appctx.object->textureID,0);
                         break;
                     }
@@ -224,9 +219,7 @@ int main(int argc, char *argv[])
                 appctx.scene->update();
                 //add render the cube environment
                 appctx.cube->draw();
-                //appctx.terrain->draw();
-                appctx.lightmarker->draw();
-              
+                
             }
             
             glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
@@ -244,8 +237,6 @@ int main(int argc, char *argv[])
           
             // draw something
             appctx.scene->update();
-            //appctx.terrain->draw();
-            appctx.lightmarker->draw();
             appctx.cube->draw();
             appctx.object->draw();
 

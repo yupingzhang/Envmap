@@ -15,6 +15,9 @@
 
 class MObject {
 private:
+    
+    Vec3f iPosition;
+
     int iFactor;
     int iRadius;
     unsigned int numvert;       // total vertices

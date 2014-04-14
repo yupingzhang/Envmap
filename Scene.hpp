@@ -13,7 +13,6 @@ class Scene {
 private:
     struct ShaderData {
         MatPair4f viewmat, projection; // viewing matrices
-        Vec3f lightpos;
     } sdata;
 
     // GL uniform buffer IDs
@@ -26,9 +25,11 @@ public:
     int width, height;         // current window dimensions
 
     Vec3f viewSph;          // view position in spherical coordinates
-    Vec3f lightSph;         // light position in spherical coordinates
-
-// public methods
+    
+    Vec3f eyePos;
+    Vec3f objPos;
+    
+    // public methods
 public:
     // create with initial window size and orbit location
     Scene(GLFWwindow *win);
@@ -38,12 +39,14 @@ public:
 
     // set view using orbitAngle
     void view();
+
+    Vec3f getviewDirection();
     
     //get
     MatPair4f getView();
     //set
     void setView(MatPair4f viewMatrix);
-    void setView(Vec3f rotate, Vec3f offset);
+    void setView(Vec3f rotate, Vec3f pos);
     
     //update projection matrix
     void proj(int flag);

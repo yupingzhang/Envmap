@@ -62,7 +62,7 @@ void Input::mouseMove(GLFWwindow *win, Scene *scene, double x, double y)
 //
 // called when any key is pressed
 //
-void Input::keyPress(GLFWwindow *win, int key, Terrain *terrain, MObject *object)
+void Input::keyPress(GLFWwindow *win, int key, Scene *scene, MObject *object)
 {
     switch (key) {
     case 'A':                   // rotate left
@@ -86,9 +86,20 @@ void Input::keyPress(GLFWwindow *win, int key, Terrain *terrain, MObject *object
         redraw = true;          // need to redraw
         break;
     case 'R':                   // reload shaders
-        
         object->updateShaders();
         redraw = true;          // need to redraw
+        break;
+    case 'J':
+        movement = MOVELEFT;  //moveleft = 1;
+        break;
+    case 'L':
+        movement = MOVERIGHT;  // moveright = 1;
+        break;
+    case 'I':
+        movement = MOVEFORWARD;  // moveforward = 1;
+        break;
+    case 'K':
+        movement = MOVEBACKWARD; //movebackward = 1;
         break;
     case GLFW_KEY_ESCAPE:                    // Escape: exit
         glfwSetWindowShouldClose(win, true);
@@ -108,6 +119,9 @@ void Input::keyRelease(GLFWwindow *win, int key)
     case 'W': case 'S':         // stop tilting
         tiltRate = 0;
         break;
+    case 'J': case 'L': case 'I': case 'K':
+        movement = 0;
+        break;
     }
 }
 
@@ -116,15 +130,37 @@ void Input::keyRelease(GLFWwindow *win, int key)
 //
 void Input::keyUpdate(Scene *scene)
 {
-    if (panRate != 0 || tiltRate != 0) {
+    if (panRate != 0 || tiltRate != 0 || movement!= 0) {
         double now = glfwGetTime();
         double dt = (now - updateTime);
 
-        // update pan based on time elapsed since last update
-        // ensures uniform rate of change
-        scene->lightSph.x += float(panRate * dt);
-        scene->lightSph.y += float(tiltRate * dt);
-        scene->light();
+        //update eye position
+        switch (movement) {
+            case MOVEFORWARD:
+            {
+                scene->eyePos.x += scene->getviewDirection().x;
+                scene->eyePos.y += scene->getviewDirection().y;
+                scene->eyePos.z += scene->getviewDirection().z;
+            }
+                break;
+            case MOVEBACKWARD:
+            {
+                scene->eyePos.x -= scene->getviewDirection().x;
+                scene->eyePos.y -= scene->getviewDirection().y;
+                scene->eyePos.z -= scene->getviewDirection().z;
+            }
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+                
+            default:
+                break;
+        }
+        
+        scene->view();
+
 
         // remember time for next update
         updateTime = now;

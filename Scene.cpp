@@ -22,8 +22,7 @@
 // create and initialize view
 //
 Scene::Scene(GLFWwindow *win) : 
-    viewSph(vec3<float>(0.f, -1.4f, 500.f)),
-    lightSph(vec3<float>(0.5f * F_PI, 0.25f * F_PI, 300.f))
+    viewSph(vec3<float>(0.f, -1.4f, 500.f))
 {
     // create uniform buffer objects
     glGenBuffers(NUM_BUFFERS, bufferIDs);
@@ -35,7 +34,6 @@ Scene::Scene(GLFWwindow *win) :
     // update view
     viewport(win);
     view();
-    light();
 }
 
 //
@@ -49,6 +47,15 @@ void Scene::view()
         * zrotate4fp(viewSph.x);
 }
 
+Vec3f Scene::getviewDirection()
+{
+    float x = sin(viewSph.x)*cos(viewSph.y)*viewSph.z;
+    float z = cos(viewSph.x)*cos(viewSph.y)*viewSph.z;
+    float y = sin(viewSph.y)*viewSph.z;
+    
+    return normalize(vec3<float>(x,y,z));
+}
+
 MatPair4f Scene::getView()
 {
     return sdata.viewmat;
@@ -59,9 +66,9 @@ void Scene::setView(MatPair4f viewMatrix)
     sdata.viewmat = viewMatrix;
 }
 
-void Scene::setView(Vec3f rotate, Vec3f offset)
+void Scene::setView(Vec3f rotate, Vec3f position)
 {
-    sdata.viewmat = zrotate4fp(rotate.z)* yrotate4fp(rotate.y)* xrotate4fp(rotate.x)*translate4fp(offset);
+    sdata.viewmat = zrotate4fp(rotate.z)* yrotate4fp(rotate.y)* xrotate4fp(rotate.x)*translate4fp(position);
 }
 
 void Scene::proj(int cubeflag)
@@ -103,20 +110,4 @@ void Scene::update() const
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
 
-//
-// Call to update light position
-//
-void Scene::light()
-{
-    // update position from spherical coordinates
-    float cx = cos(lightSph.x), sx = sin(lightSph.x);
-    float cy = cos(lightSph.y), sy = sin(lightSph.y);
-    sdata.lightpos = lightSph.z * vec3(cx*cy, sx*cy, sy);
 
-    // update uniform block
-    glBindBuffer(GL_UNIFORM_BUFFER, bufferIDs[MATRIX_BUFFER]);
-    glBufferSubData(GL_UNIFORM_BUFFER, 
-                    offsetof(ShaderData, lightpos), sizeof(sdata.lightpos),
-                    &sdata.lightpos);
-    glBindBuffer(GL_UNIFORM_BUFFER, 0);
-}

@@ -2,10 +2,14 @@
 #ifndef Input_hpp
 #define Input_hpp
 
+
+#define MOVEFORWARD 1
+#define MOVEBACKWARD 2
+#define MOVELEFT 3
+#define MOVERIGHT 4
+
 class Scene;
-class Terrain;
 class MObject;
-class Octahedron;
 struct GLFWwindow;
 
 class Input {
@@ -16,6 +20,8 @@ private:
 
     double updateTime;          // time (in seconds) of last update
     float panRate, tiltRate;    // for key change, orbiting rate in radians/sec
+    
+    int movement; //forward, backward, left, right
 
 // public data
 public:
@@ -26,7 +32,7 @@ public:
 public:
     // initialize
     Input() : button(-1), oldButton(-1), oldX(0), oldY(0), 
-              panRate(0), tiltRate(0), redraw(true), redrawcubemap(true) {}
+              panRate(0), tiltRate(0), movement(0), redraw(true), redrawcubemap(true) {}
 
     // handle mouse press / release
     void mousePress(GLFWwindow *win, int button, int action);
@@ -35,7 +41,7 @@ public:
     void mouseMove(GLFWwindow *win, Scene *scene, double x, double y);
 
     // handle key press
-    void keyPress(GLFWwindow *win, int key, Terrain *, MObject *);
+    void keyPress(GLFWwindow *win, int key, Scene *, MObject *);
 
     // handle key release
     void keyRelease(GLFWwindow *win, int key);
