@@ -12,14 +12,14 @@ layout(std140) uniform Matrices {
 in vec3 vPosition;
 in vec3 vNormal;
 
-out vec3 ePosition, eNomarl;
+out vec3 ePosition, eNormal;
 out mat4 inverseViewMatrix;
 
 void main() {
 	
     //in eye space
 	ePosition = vec3(modelViewMatrix * vec4(vPosition, 1.0));
-	eNomarl = vec3(modelViewMatrix * vec4(vNormal, 0.0));
+	eNormal = vec3(modelViewMatrix * vec4(vNormal, 0.0));
 	inverseViewMatrix = modelViewInverse;
 
     vec3 newPos = vPosition + objectpos;

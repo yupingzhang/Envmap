@@ -3,7 +3,7 @@
 
 #version 400 core
 
-in vec3 ePosition, eNomarl;
+in vec3 ePosition, eNormal;
 in mat4 inverseViewMatrix;
 uniform samplerCube cubeTexture;
 out vec4 fragColor;
@@ -11,10 +11,12 @@ out vec4 fragColor;
 void main () {
 
     // reflect ray around normal from eye to surface 
-    vec3 reflected = reflect(ePosition, eNomarl);
-    reflected = normalize(vec3(inverseViewMatrix * vec4 (reflected, 0.0)));
+    vec3 pos = normalize(ePosition);
+    vec3 nor = normalize(eNormal);
+    vec3 reflected = reflect(pos, nor);
+    reflected = vec3(inverseViewMatrix * vec4 (reflected, 0.0));
 
     fragColor = texture(cubeTexture, reflected);
-	//fragColor = vec4(0., 0.5, 0.9, 1.0);
+	 
 }
 

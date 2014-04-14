@@ -16,5 +16,5 @@ void main() {
 
 	texcoords = vPosition;
     
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition.x*505, vPosition.y*505, vPosition.z*505, 1);
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(vPosition.x, vPosition.y, vPosition.z, 1);
 }
