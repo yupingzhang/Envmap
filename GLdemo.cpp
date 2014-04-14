@@ -156,10 +156,10 @@ int main(int argc, char *argv[])
             // clear old screen contents
             glClearColor(.5f, .7f, .9f, 1.f);
             glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-
+            glViewport(0, 0, 512, 512);   //CUBE TEXTURE SIZE
+            appctx.scene->proj(1);
             //render to texture
             appctx.object->createCubeTexture();
-            appctx.scene->proj(1);
             
             for (int i=0; i<6; i++)
             {
@@ -169,7 +169,7 @@ int main(int argc, char *argv[])
                 
                 glBindTexture(GL_TEXTURE_CUBE_MAP, appctx.object->textureID);
                 // clear the framebuffer's colour and depth buffers
-                glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+                //glClear (GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
                 
                 switch (i) {
                     case 0:  //POSITIVE_X
@@ -215,7 +215,7 @@ int main(int argc, char *argv[])
 //                GLenum status;
 //                status = glCheckFramebufferStatusEXT(GL_DRAW_FRAMEBUFFER);
 //                printf("Framebuffer status: %d .\n", status);
-  
+                
                 //draw the scene except the object
                 appctx.scene->update();
                 //add render the cube environment
@@ -223,16 +223,14 @@ int main(int argc, char *argv[])
                 
             }
             
-            glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
-            glUseProgram(0);
-            
+            //glBindTexture(GL_TEXTURE_CUBE_MAP, 0);
+            //glUseProgram(0);
+            appctx.scene->viewport(win);
             //final
             //set the matrix back
             appctx.scene->setView(temp_matrix);
             appctx.scene->proj(0);
-            // clear old screen contents
-            //glClearColor(.5f, .7f, .9f, 1.f);
-            //glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+            
             // bind default framebuffer
             glBindFramebuffer (GL_FRAMEBUFFER, 0);
           

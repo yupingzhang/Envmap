@@ -33,7 +33,7 @@ private:
     std::vector<GLfloat> normal;
     
     // GL vertex array object IDs
-    enum {TERRAIN_VARRAY, NUM_VARRAYS};
+    enum {VARRAY, NUM_VARRAYS};
     unsigned int varrayIDs[NUM_VARRAYS];
     
     // GL buffer object IDs
@@ -52,7 +52,7 @@ private:
     /////////////cubemap//////////////
 public:
     //textures
-    unsigned int textureID, depthbuffer;
+    unsigned int textureID;
     
     //framebuffer
     unsigned int cube_framebuffer[6];

@@ -39,7 +39,7 @@ public:
     // set view using orbitAngle
     void view();
 
-    Vec3f getviewDirection();
+    Vec3f getEyePosition();
     
     //get
     MatPair4f getView();

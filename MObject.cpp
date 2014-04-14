@@ -127,7 +127,7 @@ void MObject::updateShaders()
                           AppContext::MATRIX_UNIFORMS);
     
     // re-connect attribute arrays
-    glBindVertexArray(varrayIDs[TERRAIN_VARRAY]);     //
+    glBindVertexArray(varrayIDs[VARRAY]);     //
     positionAttrib = glGetAttribLocation(shaderID, "vPosition");
     glEnableVertexAttribArray(positionAttrib);
     glBindBuffer(GL_ARRAY_BUFFER, bufferIDs[POSITION_BUFFER]);
@@ -158,7 +158,7 @@ void MObject::draw()
     glBindTexture(GL_TEXTURE_CUBE_MAP , textureID);
     
     // enable vertex arrays
-    glBindVertexArray(varrayIDs[TERRAIN_VARRAY]);
+    glBindVertexArray(varrayIDs[VARRAY]);
     
     // draw the triangles for each three indices
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, bufferIDs[INDEX_BUFFER]);

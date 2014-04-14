@@ -13,6 +13,7 @@
 
 // for offsetof
 #include <cstddef>
+#include <cstdio>
 
 #ifndef F_PI
 #define F_PI 3.1415926f
@@ -47,13 +48,13 @@ void Scene::view()
         * yrotate4fp(viewSph.x);
 }
 
-Vec3f Scene::getviewDirection()
+Vec3f Scene::getEyePosition()
 {
     float x = sin(viewSph.x)*cos(viewSph.y)*viewSph.z;
     float y = sin(viewSph.x)*sin(viewSph.y)*viewSph.z;
     float z = cos(viewSph.y)*viewSph.z;
     
-    return normalize(vec3<float>(x,y,z));
+    return vec3<float>(x,y,z);
 }
 
 MatPair4f Scene::getView()
@@ -68,18 +69,22 @@ void Scene::setView(MatPair4f viewMatrix)
 
 void Scene::setView(Vec3f rotate, Vec3f position)
 {
-    sdata.viewmat = translate4fp(position)*zrotate4fp(rotate.z)* yrotate4fp(rotate.y)* xrotate4fp(rotate.x);
+    sdata.viewmat = zrotate4fp(rotate.z)* yrotate4fp(rotate.y)* xrotate4fp(rotate.x)*translate4fp(position);
+    //sdata.viewmat = translate4fp(position)*zrotate4fp(rotate.z)* yrotate4fp(rotate.y)* xrotate4fp(rotate.x);
 }
 
 void Scene::proj(int cubeflag)
 {
-    if (cubeflag == 1)   //compute the cube box
+    if (cubeflag == 0)  //normal
+    {
+       sdata.projection = perspective4fp(F_PI/4, (float)width/height, 1, 10000);
+      
+    }
+    else
+    //if (cubeflag == 1)   //compute the cube box
     {
         sdata.projection = perspective4fp(F_PI/2, 1, 1, 10000);
     }
-    else   //normal
-        sdata.projection = perspective4fp(F_PI/4, (float)width/height, 1, 10000);
-    
 }
 
 //

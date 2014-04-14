@@ -134,25 +134,20 @@ void Input::keyUpdate(Scene *scene)
         double now = glfwGetTime();
         double dt = (now - updateTime);
 
-        //TODO
         switch (movement) {
             case MOVEFORWARD:
             {
-                scene->objPos.x += scene->getviewDirection().x;
-                scene->objPos.y += scene->getviewDirection().y;
-                scene->objPos.z += scene->getviewDirection().z;
+                scene->objPos.x += (scene->getEyePosition().x - scene->objPos.x) *0.01;
+                scene->objPos.y += (scene->getEyePosition().y - scene->objPos.y) *0.01;
+                scene->objPos.z += (scene->getEyePosition().z - scene->objPos.z) *0.01;
             }
                 break;
             case MOVEBACKWARD:
             {
-                scene->objPos.x -= scene->getviewDirection().x;
-                scene->objPos.y -= scene->getviewDirection().y;
-                scene->objPos.z -= scene->getviewDirection().z;
+                scene->objPos.x -= (scene->getEyePosition().x - scene->objPos.x) *0.01;
+                scene->objPos.y -= (scene->getEyePosition().y - scene->objPos.y) *0.01;
+                scene->objPos.z -= (scene->getEyePosition().z - scene->objPos.z) *0.01;
             }
-                break;
-            case 3:
-                break;
-            case 4:
                 break;
                 
             default:
