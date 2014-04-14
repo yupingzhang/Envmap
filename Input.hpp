@@ -26,13 +26,12 @@ private:
 // public data
 public:
     bool redraw;                // true if we need to redraw
-    bool redrawcubemap;         //only if light changes
 
 // public methods
 public:
     // initialize
     Input() : button(-1), oldButton(-1), oldX(0), oldY(0), 
-              panRate(0), tiltRate(0), movement(0), redraw(true), redrawcubemap(true) {}
+              panRate(0), tiltRate(0), movement(0), redraw(true) {}
 
     // handle mouse press / release
     void mousePress(GLFWwindow *win, int button, int action);

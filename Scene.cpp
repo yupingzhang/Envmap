@@ -42,9 +42,9 @@ Scene::Scene(GLFWwindow *win) :
 void Scene::view()
 {
     // update view matrix
-    sdata.viewmat = translate4fp(vec3<float>(0,0,-viewSph.z)) 
+    sdata.viewmat = translate4fp(vec3<float>(0,0,-viewSph.z))
         * xrotate4fp(viewSph.y)
-        * zrotate4fp(viewSph.x);
+        * yrotate4fp(viewSph.x);
 }
 
 Vec3f Scene::getviewDirection()
@@ -109,5 +109,20 @@ void Scene::update() const
     glBufferSubData(GL_UNIFORM_BUFFER, 0, sizeof(ShaderData), &sdata);
     glBindBuffer(GL_UNIFORM_BUFFER, 0);
 }
+
+void Scene::objectmove()
+{
+    sdata.objectpos = objPos;
+    
+    // update uniform block
+    glBindBuffer(GL_UNIFORM_BUFFER, bufferIDs[MATRIX_BUFFER]);
+    glBufferSubData(GL_UNIFORM_BUFFER,
+                    offsetof(ShaderData, objectpos), sizeof(sdata.objectpos),
+                    &sdata.objectpos);
+    glBindBuffer(GL_UNIFORM_BUFFER, 0);
+}
+
+
+
 
 

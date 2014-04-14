@@ -138,16 +138,16 @@ void Input::keyUpdate(Scene *scene)
         switch (movement) {
             case MOVEFORWARD:
             {
-                scene->eyePos.x += scene->getviewDirection().x;
-                scene->eyePos.y += scene->getviewDirection().y;
-                scene->eyePos.z += scene->getviewDirection().z;
+                scene->objPos.x += scene->getviewDirection().x;
+                scene->objPos.y += scene->getviewDirection().y;
+                scene->objPos.z += scene->getviewDirection().z;
             }
                 break;
             case MOVEBACKWARD:
             {
-                scene->eyePos.x -= scene->getviewDirection().x;
-                scene->eyePos.y -= scene->getviewDirection().y;
-                scene->eyePos.z -= scene->getviewDirection().z;
+                scene->objPos.x -= scene->getviewDirection().x;
+                scene->objPos.y -= scene->getviewDirection().y;
+                scene->objPos.z -= scene->getviewDirection().z;
             }
                 break;
             case 3:
@@ -159,14 +159,12 @@ void Input::keyUpdate(Scene *scene)
                 break;
         }
         
-        scene->view();
-
-
+        scene->objectmove();
         // remember time for next update
         updateTime = now;
 
         // changing, so will need to start another draw
         redraw = true;
-        redrawcubemap = true;
+     
     }
 }

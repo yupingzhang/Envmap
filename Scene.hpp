@@ -13,6 +13,7 @@ class Scene {
 private:
     struct ShaderData {
         MatPair4f viewmat, projection; // viewing matrices
+        Vec3f objectpos;
     } sdata;
 
     // GL uniform buffer IDs
@@ -25,8 +26,6 @@ public:
     int width, height;         // current window dimensions
 
     Vec3f viewSph;          // view position in spherical coordinates
-    
-    Vec3f eyePos;
     Vec3f objPos;
     
     // public methods
@@ -50,10 +49,10 @@ public:
     
     //update projection matrix
     void proj(int flag);
-
-    // update light
-    void light();
-
+    
+    //update object position
+    void objectmove();
+    
     // update shader uniform state each frame
     void update() const;
 };
