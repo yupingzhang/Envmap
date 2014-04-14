@@ -134,7 +134,7 @@ void Input::keyUpdate(Scene *scene)
         double now = glfwGetTime();
         double dt = (now - updateTime);
 
-        //update eye position
+        //TODO
         switch (movement) {
             case MOVEFORWARD:
             {

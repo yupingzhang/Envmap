@@ -22,7 +22,7 @@
 // create and initialize view
 //
 Scene::Scene(GLFWwindow *win) : 
-    viewSph(vec3<float>(0.f, -1.4f, 500.f))
+    viewSph(vec3<float>(0.f, 0.0f, 85.f)),objPos(vec3<float>(0.f, 0.f, 0.f))
 {
     // create uniform buffer objects
     glGenBuffers(NUM_BUFFERS, bufferIDs);
@@ -50,8 +50,8 @@ void Scene::view()
 Vec3f Scene::getviewDirection()
 {
     float x = sin(viewSph.x)*cos(viewSph.y)*viewSph.z;
-    float z = cos(viewSph.x)*cos(viewSph.y)*viewSph.z;
-    float y = sin(viewSph.y)*viewSph.z;
+    float y = sin(viewSph.x)*sin(viewSph.y)*viewSph.z;
+    float z = cos(viewSph.y)*viewSph.z;
     
     return normalize(vec3<float>(x,y,z));
 }
@@ -68,14 +68,14 @@ void Scene::setView(MatPair4f viewMatrix)
 
 void Scene::setView(Vec3f rotate, Vec3f position)
 {
-    sdata.viewmat = zrotate4fp(rotate.z)* yrotate4fp(rotate.y)* xrotate4fp(rotate.x)*translate4fp(position);
+    sdata.viewmat = translate4fp(position)*zrotate4fp(rotate.z)* yrotate4fp(rotate.y)* xrotate4fp(rotate.x);
 }
 
 void Scene::proj(int cubeflag)
 {
     if (cubeflag == 1)   //compute the cube box
     {
-        sdata.projection = perspective4fp(F_PI/2, 1, 50, 10000);
+        sdata.projection = perspective4fp(F_PI/2, 1, 1, 10000);
     }
     else   //normal
         sdata.projection = perspective4fp(F_PI/4, (float)width/height, 1, 10000);

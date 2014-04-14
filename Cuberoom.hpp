@@ -44,7 +44,7 @@ private:
     
 public:
     //textures
-    unsigned int textureID, depthbuffer;
+    unsigned int textureID;
   
     // public methods
 public:

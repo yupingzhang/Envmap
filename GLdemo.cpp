@@ -100,7 +100,7 @@ GLFWwindow *initGLFW(AppContext *appctx)
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, GL_TRUE);
-    GLFWwindow *win = glfwCreateWindow(843, 480, "OpenGL Demo", 0, 0);
+    GLFWwindow *win = glfwCreateWindow(640, 480, "OpenGL Demo", 0, 0);
     if (! win) {
         glfwTerminate();
         return 0;
@@ -121,8 +121,9 @@ GLFWwindow *initGLFW(AppContext *appctx)
     glfwSetCursorPosCallback(win, mouseMove);
 
     // set OpenGL state
-    glEnable(GL_DEPTH_TEST);      // tell OpenGL to handle overlapping surfaces
+    glEnable(GL_DEPTH_TEST);      
     glEnable(GL_TEXTURE_CUBE_MAP);
+    glEnable(GL_TEXTURE_CUBE_MAP_SEAMLESS);
     return win;
 }
 

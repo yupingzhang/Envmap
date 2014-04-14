@@ -35,14 +35,14 @@ Cuberoom::Cuberoom()
     
     // build vertex array
     numvert = sizeof(vert)/sizeof(*vert);
-    vert[0] = vec3<float>( -1.f, 1.f, -1.f);
-    vert[1] = vec3<float>( -1.f, -1.f, -1.f);
-    vert[2] = vec3<float>( 1.f, -1.f, -1.f);
-    vert[3] = vec3<float>( 1.f, 1.f, -1.f);
-    vert[4] = vec3<float>( -1.f, 1.f, 1.f);
-    vert[5] = vec3<float>( -1.f, -1.f, 1.f);
-    vert[6] = vec3<float>( 1.f, -1.f, 1.f);
-    vert[7] = vec3<float>( 1.f, 1.f, 1.f);
+    vert[0] = vec3<float>( -100.f, 100.f, -100.f);
+    vert[1] = vec3<float>( -100.f, -100.f, -100.f);
+    vert[2] = vec3<float>( 100.f, -100.f, -100.f);
+    vert[3] = vec3<float>( 100.f, 100.f, -100.f);
+    vert[4] = vec3<float>( -100.f, 100.f, 100.f);
+    vert[5] = vec3<float>( -100.f, -100.f, 100.f);
+    vert[6] = vec3<float>( 100.f, -100.f, 100.f);
+    vert[7] = vec3<float>( 100.f, 100.f, 100.f);
     
     // build index array linking sets of three vertices into triangles
     numtri = sizeof(indices)/sizeof(*indices);

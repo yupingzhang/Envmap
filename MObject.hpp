@@ -11,7 +11,7 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 
-#define CUBE_TEXTURE_SIZE 128
+#define CUBE_TEXTURE_SIZE 512
 
 class MObject {
 private:
