@@ -5,12 +5,11 @@
 layout(std140) uniform Matrices {
     mat4 modelViewMatrix, modelViewInverse;
     mat4 projectionMatrix, projectionInverse;
-    vec3 lightpos;
 };
 
 // per-vertex input
 in vec3 vPosition;
- 
+
 out vec3 texcoords;
 
 void main() {
